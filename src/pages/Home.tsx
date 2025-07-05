@@ -31,7 +31,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 6000, stopOnInteraction: false })
+    Autoplay({ delay: 6000, stopOnInteraction: true, stopOnMouseEnter: true })
   );
 
   useEffect(() => {
@@ -74,13 +74,13 @@ const Home = () => {
         <div className="container mx-auto px-4 space-y-12">
           <div>
             <Skeleton className="h-8 w-1/4 mb-4" />
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 overflow-x-auto pb-4">
               {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-[250px] w-[166px] rounded-lg shrink-0" />)}
             </div>
           </div>
           <div>
             <Skeleton className="h-8 w-1/4 mb-4" />
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 overflow-x-auto pb-4">
               {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-[250px] w-[166px] rounded-lg shrink-0" />)}
             </div>
           </div>
@@ -94,9 +94,7 @@ const Home = () => {
       {bannerItems.length > 0 && (
         <Carousel
           plugins={[autoplayPlugin.current]}
-          className="w-full"
-          onMouseEnter={autoplayPlugin.current.stop}
-          onMouseLeave={autoplayPlugin.current.reset}
+          className="w-full group"
           opts={{ loop: true }}
         >
           <CarouselContent>
@@ -127,8 +125,8 @@ const Home = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 text-white bg-black/30 hover:bg-black/50 border-0 disabled:opacity-50" />
-          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 text-white bg-black/30 hover:bg-black/50 border-0 disabled:opacity-50" />
+          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 text-white bg-black/30 hover:bg-black/50 border-0 opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0" />
+          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 text-white bg-black/30 hover:bg-black/50 border-0 opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0" />
         </Carousel>
       )}
 
@@ -142,7 +140,7 @@ const Home = () => {
                   align: 'start',
                   dragFree: true,
                 }}
-                className="w-full"
+                className="w-full group"
               >
                 <CarouselContent className="-ml-4">
                   {libraryItems[lib.Name]?.map((item) => (
@@ -151,8 +149,8 @@ const Home = () => {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
+                <CarouselPrevious className="opacity-0 group-hover:opacity-100 disabled:opacity-0" />
+                <CarouselNext className="opacity-0 group-hover:opacity-100 disabled:opacity-0" />
               </Carousel>
             </section>
           )
